@@ -49,6 +49,9 @@ const setPanEvents =(canvas) =>{
             canvas.renderAll()
             const delta = new fabric.Point(event.e.movementX, event.e.movementY);
             canvas.relativePan(delta);
+        } else if(mousePressed && currentMode === modes.drawing){
+            canvas.isDrawingMode = true;
+            canvas.renderAll()
         }
     });
 
