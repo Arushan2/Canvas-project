@@ -24,8 +24,21 @@ const setBackground = (url, canvas) => {
 };
 
 const canvas = initCanvas('canvas');
+let mousePressed = false;
+
 setBackground('https://images.squarespace-cdn.com/content/v1/6298cb774cf3830bc9b342bf/1dcfee57-9a6e-49bb-9cd2-5088e88b946d/Hindu+Temple+Jaffna.jpg', canvas);
 
-canvas.on('mouse:over',(e) =>{
-    console.log(e)
-})
+canvas.on('mouse:move', (event) => {
+    if (mousePressed) {
+        const delta = new fabric.Point(event.e.movementX, event.e.movementY);
+        canvas.relativePan(delta);
+    }
+});
+
+canvas.on('mouse:down', () => {
+    mousePressed = true;
+});
+
+canvas.on('mouse:up', () => {
+    mousePressed = false;
+});
