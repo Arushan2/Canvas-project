@@ -26,8 +26,10 @@ const setBackground = (url, canvas) => {
 const canvas = initCanvas('canvas');
 let mousePressed = false;
 
+// Initial background image
 setBackground('https://images.squarespace-cdn.com/content/v1/6298cb774cf3830bc9b342bf/1dcfee57-9a6e-49bb-9cd2-5088e88b946d/Hindu+Temple+Jaffna.jpg', canvas);
 
+// Event listeners for canvas interaction
 canvas.on('mouse:move', (event) => {
     if (mousePressed) {
         const delta = new fabric.Point(event.e.movementX, event.e.movementY);
@@ -41,4 +43,10 @@ canvas.on('mouse:down', () => {
 
 canvas.on('mouse:up', () => {
     mousePressed = false;
+});
+
+// Event listener for the button to update the background image
+document.getElementById('updateBackground').addEventListener('click', () => {
+    const imageUrl = document.getElementById('imageUrl').value;
+    setBackground(imageUrl, canvas);
 });
