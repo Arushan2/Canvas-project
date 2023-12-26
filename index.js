@@ -108,9 +108,37 @@ const clearCanvas = (canvas) => {
         if (o !== canvas.backgroundImage) {
             canvas.remove(o);
         }
-    });
-};
-
+    })
+}
+const createRect = (canvas) => {
+    console.log("Rect")
+    const canvCenter = canvas.getCenter()
+    const rect = new fabric.Rect({
+        width:100,
+        height:100,
+        fill: color,
+        left: canvCenter.left,
+        top:canvCenter.top,
+        originX: 'center',
+        originY: 'center'
+    })
+    canvas.add(rect);
+    canvas.renderAll();
+}
+const createCirc = (canvas) => {
+    console.log("Circ")
+    const canvCenter = canvas.getCenter()
+    const circle = new fabric.Circle({
+        radius:50,
+        fill: color,
+        left: canvCenter.left,
+        top:canvCenter.top,
+        originX: 'center',
+        originY: 'center'
+    })
+    canvas.add(circle);
+    canvas.renderAll();    
+}
 
 const canvas = initiCanvas("canvas");
 let mousePressed = false;
