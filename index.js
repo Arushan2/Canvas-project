@@ -102,6 +102,15 @@ const setcolorListener = () => {
         canvas.renderAll()
     })
 }
+
+const clearCanvas = (canvas) => {
+    canvas.getObject.forEach((o) =>{
+        if(o !== canvas.backgroundImage){
+            canvas.remove(o)
+        }        
+    })
+}
+
 const canvas = initiCanvas("canvas");
 let mousePressed = false;
 let color = '#000000'
