@@ -56,9 +56,9 @@ const toggleMode = (mode) =>{
             canvas.isDrawingMode = false
             canvas.renderAll()
         } else{
-            canvas.freeDrawingBrush.color = "red"
-            canvas.freeDrawingBrush.width = 15
             currentMode = modes.drawing
+            canvas.freeDrawingBrush.color =
+            color
             canvas.isDrawingMode = true
             canvas.renderAll()
         }
@@ -92,8 +92,19 @@ const setPanEvents = (canvas) =>{
         canvas.renderAll()
     })
 }
+const setcolorListener = () => {
+    const picker = document.getElementById
+    ("colorPicker")
+    picker.addEventListener("change", (event)=> {
+        console.log(event.target.value)
+        color = '#' + event.target.value
+        canvas.freeDrawingBrush.color = color
+        canvas.renderAll()
+    })
+}
 const canvas = initiCanvas("canvas");
 let mousePressed = false;
+let color = '#000000'
 let currentMode;
 const modes={
     pan:"pan",
@@ -101,3 +112,5 @@ const modes={
 }
 setBackground("https://th.bing.com/th/id/OIP.rfbVhRZn0nAG4BnfDGastAHaFj?w=720&h=540&rs=1&pid=ImgDetMain",canvas);
 setPanEvents(canvas);
+
+setcolorListener()
