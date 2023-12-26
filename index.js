@@ -104,12 +104,13 @@ const setcolorListener = () => {
 }
 
 const clearCanvas = (canvas) => {
-    canvas.getObject.forEach((o) =>{
-        if(o !== canvas.backgroundImage){
-            canvas.remove(o)
-        }        
-    })
-}
+    canvas.getObjects().forEach((o) => {
+        if (o !== canvas.backgroundImage) {
+            canvas.remove(o);
+        }
+    });
+};
+
 
 const canvas = initiCanvas("canvas");
 let mousePressed = false;
