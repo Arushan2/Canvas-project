@@ -148,7 +148,7 @@ const modes={
     pan:"pan",
     drawing:"drawing"
 }
-setBackground("https://th.bing.com/th/id/OIP.rfbVhRZn0nAG4BnfDGastAHaFj?w=720&h=540&rs=1&pid=ImgDetMain",canvas);
+setBackground("https://www.apple.com/newsroom/images/partnerships/Apple-Google-partner-industry-specification-hero_inline.jpg.slideshow-xlarge_2x.jpg",canvas);
 setPanEvents(canvas);
 
 setcolorListener()
