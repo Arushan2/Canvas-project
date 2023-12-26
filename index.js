@@ -92,33 +92,19 @@ const setPanEvents = (canvas) =>{
         canvas.renderAll()
     })
 }
-// const setcolorListener = () => {
-//     const picker = document.getElementById
-//     ("colorPicker")
-//     picker.addEventListener("change", (event)=> {
-//         console.log(event.target.value)
-//         color = '#' + event.target.value
-//         canvas.freeDrawingBrush.color = color
-//         canvas.renderAll()
-//     })
-// }
-
 const setcolorListener = () => {
-    const picker = document.getElementById("colorPicker");
-    picker.addEventListener("change", (event) => {
-        console.log(event.target.value);
-        color = event.target.value;
-        if (canvas.freeDrawingBrush) {
-            canvas.freeDrawingBrush.color = color;
-        }
-        console.log(color)
-        canvas.renderAll();
-    });
+    const picker = document.getElementById
+    ("colorPicker")
+    picker.addEventListener("change", (event)=> {
+        console.log(event.target.value)
+        color = event.target.value
+        canvas.freeDrawingBrush.color = color
+        canvas.renderAll()
+    })
 }
-
 const canvas = initiCanvas("canvas");
 let mousePressed = false;
-let color = '#FFFFFF'
+let color = '#000000'
 let currentMode;
 const modes={
     pan:"pan",
