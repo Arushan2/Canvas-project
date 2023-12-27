@@ -120,7 +120,8 @@ const createRect = (canvas) => {
         left: canvCenter.left,
         top:canvCenter.top,
         originX: 'center',
-        originY: 'center'
+        originY: 'center',
+        cornerColor: 'white'
     })
     canvas.add(rect);
     canvas.renderAll();
