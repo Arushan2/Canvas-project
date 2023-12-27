@@ -135,7 +135,8 @@ const createCirc = (canvas) => {
         left: canvCenter.left,
         top:canvCenter.top,
         originX: 'center',
-        originY: 'center'
+        originY: 'center',
+        cornerColor: 'white',
     })
     canvas.add(circle);
     canvas.renderAll();    
