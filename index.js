@@ -111,24 +111,29 @@ const clearCanvas = (canvas) => {
     })
 }
 const createRect = (canvas) => {
-    console.log("Rect")
-    const canvCenter = canvas.getCenter()
+    console.log("Rect");
+    const canvCenter = canvas.getCenter();
     const rect = new fabric.Rect({
-        width:100,
-        height:100,
-        fill: color,
+        width: 100,
+        height: 100,
+        fill: "green",
         left: canvCenter.left,
-        top:-50,
+        top: -50,  // Starts above the canvas
         originX: 'center',
         originY: 'center',
-        cornerColor: 'white'
+        cornerColor: 'white',
+        objectCaching: false
     });
     canvas.add(rect);
     canvas.renderAll();
-    rect.animate('top',canvCenter.top,{
-        onchange: canvas.renderAll.bind(canvas)
+
+    rect.animate('top', canvCenter.top, {
+        onChange: canvas.renderAll.bind(canvas),
+        duration: 1000,  // Duration of the animation in milliseconds
+        easing: fabric.util.ease.easeInOutQuad  // Easing function for the animation
     });
 }
+
 const createCirc = (canvas) => {
     console.log("Circ")
     const canvCenter = canvas.getCenter()
@@ -153,7 +158,7 @@ const modes={
     pan:"pan",
     drawing:"drawing"
 }
-setBackground("https://www.apple.com/newsroom/images/partnerships/Apple-Google-partner-industry-specification-hero_inline.jpg.slideshow-xlarge_2x.jpg",canvas);
+setBackground("https://ak-d.tripcdn.com/images/02249120009sy57x3052C_R_550_412_R5.jpg",canvas);
 setPanEvents(canvas);
 
 setcolorListener()
