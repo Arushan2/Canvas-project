@@ -118,13 +118,16 @@ const createRect = (canvas) => {
         height:100,
         fill: color,
         left: canvCenter.left,
-        top:canvCenter.top,
+        top:-50,
         originX: 'center',
         originY: 'center',
         cornerColor: 'white'
     })
     canvas.add(rect);
     canvas.renderAll();
+    rect.animate('top',45,{
+        onchange: canvas.renderAll.bind(canvas)
+    });
 }
 const createCirc = (canvas) => {
     console.log("Circ")
