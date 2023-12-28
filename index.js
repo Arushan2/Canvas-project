@@ -116,7 +116,7 @@ const createRect = (canvas) => {
     const rect = new fabric.Rect({
         width: 100,
         height: 100,
-        fill: "green",
+        fill: color,
         left: canvCenter.left,
         top: -50,  // Starts above the canvas
         originX: 'center',
@@ -132,6 +132,13 @@ const createRect = (canvas) => {
         duration: 1000,  // Duration of the animation in milliseconds
         easing: fabric.util.ease.easeInOutQuad  // Easing function for the animation
     });
+    rect.on('selected',() =>{
+        rect.fill ="white"
+    })
+    rect.on('deselected',() =>{
+        rect.fill = color
+    })
+    canvas.renderAll()
 }
 
 const createCirc = (canvas) => {
@@ -141,13 +148,31 @@ const createCirc = (canvas) => {
         radius:50,
         fill: color,
         left: canvCenter.left,
-        top:canvCenter.top,
+        top:-50,
         originX: 'center',
         originY: 'center',
         cornerColor: 'white',
+        objectCaching:false
     })
-    canvas.add(circle);
-    canvas.renderAll();    
+    canvas.add(circle)
+    canvas.renderAll()
+    circle.animate('top',canvas.height -50, {
+        onChange: canvas.renderAll.bind(canvas),
+        onComplete: () =>{
+            circle.animate('top',canvCenter.top, {
+            onChange: canvas.renderAll.bind(canvas),
+            easing: fabric.util.ease.easeOutBounce,
+            duration: 500
+            })
+        }
+    });
+    circle.on('selected',() =>{
+        circle.fill ="white"
+    })
+    circle.on('deselected',() =>{
+        circle.fill = color
+    })
+    canvas.renderAll()   
 }
 
 const canvas = initiCanvas("canvas");
