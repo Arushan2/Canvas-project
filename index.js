@@ -122,10 +122,10 @@ const createRect = (canvas) => {
         originX: 'center',
         originY: 'center',
         cornerColor: 'white'
-    })
+    });
     canvas.add(rect);
     canvas.renderAll();
-    rect.animate('top',45,{
+    rect.animate('top',canvCenter.top,{
         onchange: canvas.renderAll.bind(canvas)
     });
 }
