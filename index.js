@@ -9,6 +9,25 @@
 //     canvas.backgroundImage = img
 //     canvas.renderAll();
 // })
+let savedCanvasState = null;
+
+const saveCanvasState = (canvas) => {
+    savedCanvasState = canvas.toJSON();
+};
+
+const restoreCanvas = () => {
+    if (savedCanvasState) {
+        canvas.loadFromJSON(savedCanvasState, () => {
+            canvas.renderAll();
+            // Add any additional logic needed after restoring the canvas
+        });
+    }
+};
+
+
+// ... rest of your existing code ...
+
+
 const initiCanvas = (id)=>{
     return new fabric.Canvas(id,{
         width:720,
@@ -104,11 +123,12 @@ const setcolorListener = () => {
 }
 
 const clearCanvas = (canvas) => {
+    saveCanvasState(canvas);
     canvas.getObjects().forEach((o) => {
         if (o !== canvas.backgroundImage) {
             canvas.remove(o);
         }
-    })
+    });
 }
 const createRect = (canvas) => {
     console.log("Rect");
@@ -179,10 +199,17 @@ const groupObjects=(canvas,group,shouldGroup) =>{
         const objects = canvas.getObjects();
         group.val = new fabric.Group(objects)
         clearCanvas(canvas)
-        canvas.add(group.val)
-        canvas.requestRenderAll()
-        console.log("Grouping sucessfull")
+        canvas.add(group.val);
+        canvas.requestRenderAll();
     }else {
+        if(group.val){
+            const oldGroup = group.val.getObjects()
+            canvas.remove(group.val);
+            group.val = null;
+            canvas.add(...oldGroup);
+            canvas.requestRenderAll()
+            console.log("Ungrouping is successfull")
+        }
 
     }
 }
