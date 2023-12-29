@@ -172,12 +172,25 @@ const createCirc = (canvas) => {
     circle.on('deselected',() =>{
         circle.fill = color
     })
-    canvas.renderAll()   
+    canvas.requestRenderAll()   
+}
+const groupObjects=(canvas,group,shouldGroup) =>{
+    if(shouldGroup){
+        const objects = canvas.getObjects();
+        group.val = new fabric.Group(objects)
+        clearCanvas(canvas)
+        canvas.add(group.val)
+        canvas.requestRenderAll()
+        console.log("Grouping sucessfull")
+    }else {
+
+    }
 }
 
 const canvas = initiCanvas("canvas");
 let mousePressed = false;
 let color = '#000000'
+const group={}
 let currentMode;
 const modes={
     pan:"pan",
