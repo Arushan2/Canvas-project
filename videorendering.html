@@ -23,42 +23,42 @@
     <div id="videoInfo"></div>
 
     <script>
-    document.getElementById('fileChooser').addEventListener('change', function(event) {
+        document.getElementById('fileChooser').addEventListener('change', function(event) {
     const file = event.target.files[0];
     const url = URL.createObjectURL(file);
     loadVideo(url);
-    });
+});
 
-    function loadVideo(url) {
-        const videoPlayer = document.getElementById('videoPlayer');
-        videoPlayer.src = url;
-    }
-
-    function playVideo() {
-        const videoPlayer = document.getElementById('videoPlayer');
-        videoPlayer.play();
-    }
-
-    function pauseVideo() {
-        const videoPlayer = document.getElementById('videoPlayer');
-        videoPlayer.pause();
-    }
-
-    function stopVideo() {
-        const videoPlayer = document.getElementById('videoPlayer');
-        videoPlayer.pause();
-        videoPlayer.currentTime = 0;
-    }
-
+function loadVideo(url) {
     const videoPlayer = document.getElementById('videoPlayer');
-    videoPlayer.addEventListener('timeupdate', updateVideoInfo);
+    videoPlayer.src = url;
+}
 
-    function updateVideoInfo() {
-        const videoInfo = document.getElementById('videoInfo');
-        const current = videoPlayer.currentTime;
-        const duration = videoPlayer.duration;
-        videoInfo.textContent = `Current Time: ${current.toFixed(2)} / Duration: ${duration.toFixed(2)}`;
-    }
+function playVideo() {
+    const videoPlayer = document.getElementById('videoPlayer');
+    videoPlayer.play();
+}
+
+function pauseVideo() {
+    const videoPlayer = document.getElementById('videoPlayer');
+    videoPlayer.pause();
+}
+
+function stopVideo() {
+    const videoPlayer = document.getElementById('videoPlayer');
+    videoPlayer.pause();
+    videoPlayer.currentTime = 0;
+}
+
+const videoPlayer = document.getElementById('videoPlayer');
+videoPlayer.addEventListener('timeupdate', updateVideoInfo);
+
+function updateVideoInfo() {
+    const videoInfo = document.getElementById('videoInfo');
+    const current = videoPlayer.currentTime;
+    const duration = videoPlayer.duration;
+    videoInfo.textContent = `Current Time: ${current.toFixed(2)} / Duration: ${duration.toFixed(2)}`;
+}
 
     </script>
 </body>
