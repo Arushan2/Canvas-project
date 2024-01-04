@@ -9,7 +9,40 @@
 //     canvas.backgroundImage = img
 //     canvas.renderAll();
 // })
+
 let savedCanvasState = null;
+let undoHistory = [];
+let redoHistory = [];
+const saveState = () => {
+    // Clear the redo history once a new action is taken
+    redoHistory = [];
+    const state = JSON.stringify(canvas.toJSON());
+    undoHistory.push(state); //save in a list (push is used for save in javascript)
+};
+
+// Call saveState() after making changes to the canvas
+// For example, you can bind it to canvas events like 'object:modified', 'object:added', etc.
+
+
+const undo = () => {
+    if (undoHistory.length > 0) {
+        console.log("Undo history ",undoHistory)
+        redoHistory.push(undoHistory.pop());
+        canvas.loadFromJSON(undoHistory[undoHistory.length - 1], () => {
+            canvas.renderAll();
+        });
+    }
+};
+
+const redo = () => {
+    if (redoHistory.length > 0) {
+        console.log("Redo history ",redoHistory)
+        undoHistory.push(redoHistory.pop());
+        canvas.loadFromJSON(undoHistory[undoHistory.length - 1], () => {
+            canvas.renderAll();
+        });
+    }
+};
 
 const saveCanvasState = (canvas) => {
     savedCanvasState = canvas.toJSON();
@@ -54,6 +87,8 @@ const loadImage = () => {
         canvas.renderAll();
     });
 }
+
+
 const setBackground = (url,canvas)=> {
     fabric.Image.fromURL(url,(img)=> {
         canvas.backgroundImage = img
@@ -128,7 +163,7 @@ const clearCanvas = (canvas) => {
         if (o !== canvas.backgroundImage) {
             canvas.remove(o);
         }
-    });
+    })
 }
 const createRect = (canvas) => {
     console.log("Rect");
@@ -154,6 +189,7 @@ const createRect = (canvas) => {
     });
     rect.on('selected',() =>{
         rect.fill ="white"
+        console.log(rect.fill);
     })
     rect.on('deselected',() =>{
         rect.fill = color
@@ -214,16 +250,31 @@ const groupObjects=(canvas,group,shouldGroup) =>{
     }
 }
 
+
 const canvas = initiCanvas("canvas");
+canvas.on('object:modified', () => saveState());
+canvas.on('object:added', () => saveState());
+canvas.on('mouse:down', () => saveState());
+canvas.on('mouse:up', () => saveState());
+
+
 let mousePressed = false;
 let color = '#000000'
+canvas.on('mouse:down', function(options) {
+    if (options.target) {
+      console.log('Active object:', options.target);
+    }
+  });
+  
 const group={}
 let currentMode;
 const modes={
     pan:"pan",
     drawing:"drawing"
 }
+
 setBackground("https://ak-d.tripcdn.com/images/02249120009sy57x3052C_R_550_412_R5.jpg",canvas);
 setPanEvents(canvas);
+
 
 setcolorListener()
