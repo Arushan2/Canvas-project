@@ -71,7 +71,7 @@ window.addEventListener('load', function() {
         switch (shape) {
             case 'rectangle':
                 ctx.rect(100, 100, 150, 100); // Customize dimensions as needed
-                console.log("rect")
+                console.log("rectangle")
                 break;
             case 'circle':
                 ctx.arc(200, 200, 50, 0, 2 * Math.PI); // Customize position and radius as needed
