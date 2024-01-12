@@ -1,19 +1,22 @@
 window.addEventListener('load', function() {
     var canvas = document.getElementById('videoCanvas');
     var ctx = canvas.getContext('2d');
-    var drawing = false; // Flag to toggle drawing
+    var drawing = false;
+    var isPanning = false;
+    var startX, startY;
 
     var toggleDrawingButton = document.getElementById('toggleDrawing');
-    toggleDrawingButton.addEventListener('click', toggleDrawing);
+    toggleDrawingButton.addEventListener('click', function() {
+        drawing = !drawing;
+        toggleDrawingButton.textContent = drawing ? "Disable Drawing" : "Enable Drawing";
+    });
 
     var video = document.createElement('video');
     video.src = 'sample.mp4'; // Replace with your video file path
     video.load();
 
     video.addEventListener('play', function() {
-        if (!drawing) {
-            draw(this, ctx, canvas.width, canvas.height);
-        }
+        draw(this, ctx, canvas.width, canvas.height);
     }, false);
 
     function draw(video, ctx, width, height) {
@@ -24,39 +27,53 @@ window.addEventListener('load', function() {
         });
     }
 
-    // Toggle drawing mode
-    function toggleDrawing() {
-        drawing = !drawing;
-        if (!drawing && !video.paused) {
-            draw(video, ctx, canvas.width, canvas.height);
+    canvas.addEventListener('mousedown', function(e) {
+        if (drawing) {
+            ctx.beginPath();
+            ctx.moveTo(e.offsetX, e.offsetY);
+        } else {
+            isPanning = true;
+            startX = e.offsetX;
+            startY = e.offsetY;
         }
-        toggleDrawingButton.textContent = drawing ? "Disable Drawing" : "Enable Drawing";
+    });
+
+    canvas.addEventListener('mousemove', function(e) {
+        if (drawing) {
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+        } else if (isPanning) {
+            const dx = e.offsetX - startX;
+            const dy = e.offsetY - startY;
+            startX = e.offsetX;
+            startY = e.offsetY;
+            panCanvas(dx, dy);
+        }
+    });
+
+    canvas.addEventListener('mouseup', function() {
+        if (drawing) {
+            ctx.closePath();
+        }
+        isPanning = false;
+    });
+
+    canvas.addEventListener('mouseout', function() {
+        if (drawing) {
+            ctx.closePath();
+        }
+    });
+
+    function panCanvas(dx, dy) {
+        ctx.translate(dx, dy);
+        redrawCanvas();
     }
 
-    // Drawing logic
-    function startDrawing(event) {
-        if (!drawing) return;
-        ctx.beginPath();
-        ctx.moveTo(event.offsetX, event.offsetY);
-        canvas.addEventListener('mousemove', drawLine);
+    function redrawCanvas() {
+        ctx.clearRect(-canvas.width, -canvas.height, canvas.width * 2, canvas.height * 2);
+        // Redraw the canvas content
     }
 
-    function drawLine(event) {
-        if (!drawing) return;
-        ctx.lineTo(event.offsetX, event.offsetY);
-        ctx.stroke();
-    }
-
-    function stopDrawing() {
-        if (!drawing) return;
-        canvas.removeEventListener('mousemove', drawLine);
-    }
-
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('mouseout', stopDrawing);
-
-    // Play/Pause video on canvas click (optional)
     canvas.addEventListener('click', function() {
         if (video.paused) {
             video.play();
@@ -66,6 +83,7 @@ window.addEventListener('load', function() {
     });
     // Drawing specific shapes
     function drawShape(shape) {
+
         ctx.beginPath();
         switch (shape) {
             case 'rectangle':
