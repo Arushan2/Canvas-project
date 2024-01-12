@@ -64,4 +64,44 @@ window.addEventListener('load', function() {
             video.pause();
         }
     });
+    // Drawing specific shapes
+    function drawShape(shape) {
+        if (!drawing) return;
+        ctx.beginPath();
+        switch (shape) {
+            case 'rectangle':
+                ctx.rect(100, 100, 150, 100); // Customize dimensions as needed
+                console.log("rect")
+                break;
+            case 'circle':
+                ctx.arc(200, 200, 50, 0, 2 * Math.PI); // Customize position and radius as needed
+                break;
+            case 'triangle':
+                ctx.moveTo(100, 100);
+                ctx.lineTo(150, 200);
+                ctx.lineTo(50, 200);
+                ctx.closePath();
+                break;
+            case 'square':
+                ctx.rect(100, 100, 100, 100); // Customize position and size as needed
+                break;
+        }
+        ctx.stroke();
+    }
+
+    document.getElementById('drawRect').addEventListener('click', function() {
+        drawShape('rectangle');
+    });
+
+    document.getElementById('drawCircle').addEventListener('click', function() {
+        drawShape('circle');
+    });
+
+    document.getElementById('drawTriangle').addEventListener('click', function() {
+        drawShape('triangle');
+    });
+
+    document.getElementById('drawSquare').addEventListener('click', function() {
+        drawShape('square');
+    });
 });
